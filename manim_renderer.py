@@ -88,9 +88,15 @@ def render_manim_scene(
         str(output_dir),
         "-r",
         resolution_str.replace(",", "x"),  # Format: 1280x720
-        "--fps",
+        "--frame_rate",
         str(fps),
     ]
+    
+    # Add quality flag to manim_cmd before wrapping
+    if quality == "low":
+        manim_cmd.append("-l")
+    elif quality == "high":
+        manim_cmd.append("--high_quality")
     
     # Check if we're in a headless environment (no DISPLAY set)
     # If so, wrap with xvfb-run to provide a virtual framebuffer
@@ -105,12 +111,6 @@ def render_manim_scene(
         ] + manim_cmd
     else:
         cmd = manim_cmd
-
-    # Add quality flag
-    if quality == "low":
-        cmd.append("-l")
-    elif quality == "high":
-        cmd.append("--high_quality")
 
     try:
         # Environment setup - use the current Python environment
