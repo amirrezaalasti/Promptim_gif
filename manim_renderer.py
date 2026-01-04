@@ -75,7 +75,9 @@ def render_manim_scene(
     # Build command - use sys.executable to ensure access to all packages
     # Use absolute path for scene_file to avoid path resolution issues
     scene_file_abs = str(scene_file.resolve())
-    cmd = [
+    
+    # Base manim command
+    manim_cmd = [
         sys.executable,
         "-m",
         "manimlib",
@@ -89,6 +91,20 @@ def render_manim_scene(
         "--fps",
         str(fps),
     ]
+    
+    # Check if we're in a headless environment (no DISPLAY set)
+    # If so, wrap with xvfb-run to provide a virtual framebuffer
+    is_headless = not os.environ.get("DISPLAY")
+    
+    if is_headless:
+        # Use xvfb-run to provide a virtual display for OpenGL/pyglet
+        cmd = [
+            "xvfb-run",
+            "-a",  # Auto-select display number
+            "--server-args=-screen 0 1920x1080x24",  # Virtual screen size
+        ] + manim_cmd
+    else:
+        cmd = manim_cmd
 
     # Add quality flag
     if quality == "low":
