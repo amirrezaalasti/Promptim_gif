@@ -1,0 +1,23 @@
+# System dependencies for ManimGL
+# Cairo and Pango libraries required by manimpango
+libcairo2-dev
+libpango1.0-dev
+pkg-config
+
+# Additional dependencies for ManimGL rendering
+libgl1-mesa-glx
+libgl1-mesa-dev
+libegl1-mesa-dev
+libgles2-mesa-dev
+xvfb
+
+# FFmpeg for video processing
+ffmpeg
+
+# LaTeX for mathematical typesetting
+texlive
+texlive-latex-extra
+texlive-fonts-extra
+texlive-latex-recommended
+texlive-science
+dvisvgm
