@@ -72,9 +72,6 @@ def render_manim_scene(
     # Get scene name
     scene_name = extract_scene_name(code)
 
-    # Path to manim directory
-    manim_dir = Path(__file__).parent.parent / "manim"
-
     # Build command - use sys.executable to ensure access to all packages
     # Use absolute path for scene_file to avoid path resolution issues
     scene_file_abs = str(scene_file.resolve())
@@ -100,17 +97,8 @@ def render_manim_scene(
         cmd.append("--high_quality")
 
     try:
-        # Simplified environment setup
-        # Just add manim directory to PYTHONPATH and let Python handle the rest
-        # This avoids issues where manual site-package discovery might miss paths
+        # Environment setup - use the current Python environment
         env = os.environ.copy()
-        
-        # Build PYTHONPATH - use os.pathsep for cross-platform compatibility
-        existing_pp = env.get("PYTHONPATH", "")
-        if existing_pp:
-             env["PYTHONPATH"] = str(manim_dir) + os.pathsep + existing_pp
-        else:
-             env["PYTHONPATH"] = str(manim_dir)
 
         # Ensure PATH includes the Python environment (just in case)
         python_bin = str(Path(sys.executable).parent)
@@ -143,7 +131,7 @@ def render_manim_scene(
 
         result = subprocess.run(
             cmd,
-            cwd=str(manim_dir),
+            cwd=str(temp_dir),
             capture_output=True,
             text=True,
             timeout=300,

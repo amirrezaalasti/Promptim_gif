@@ -4,9 +4,6 @@ import os
 import sys
 from pathlib import Path
 
-# Add parent directory for manim imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "manim"))
-
 import streamlit as st
 
 from code_generator import plan_scene, generate_manim_code, fix_code
