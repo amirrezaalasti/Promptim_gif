@@ -88,8 +88,6 @@ def render_manim_scene(
         str(output_dir),
         "-r",
         resolution_str.replace(",", "x"),  # Format: 1280x720
-        "--frame_rate",
-        str(fps),
     ]
     
     # Add quality flag to manim_cmd before wrapping
